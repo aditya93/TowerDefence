@@ -11,12 +11,21 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Tower_Defence
 {
+    
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+
+        public enum GameStates
+        {
+            Menu,
+            Running,
+            End,
+        }
+        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
         Level level = new Level();
+        public static GameStates gameStates;
         //Tower tower;
         Player player;
         //Enemy enemy1;
@@ -31,7 +40,7 @@ namespace Tower_Defence
 
             graphics.PreferredBackBufferWidth = level.Width * 32;
             graphics.PreferredBackBufferHeight = (level.Height + 1) * 32;
-
+            gameStates = GameStates.Menu;
             IsMouseVisible = true;
             Content.RootDirectory = "Content";
         }
