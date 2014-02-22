@@ -29,13 +29,14 @@ namespace Tower_Defence
         {
             get
             {
-                if (Game1.gameStates == Game1.GameStates.Menu)
+                if (keyboardState.IsKeyDown(Keys.Up) && lastState.IsKeyUp(Keys.Up))
                 {
-                    return keyboardState.IsKeyDown(Keys.Up) && lastState.IsKeyDown(Keys.Up);
+                    return true;
                 }
+
                 else
                 {
-                    return keyboardState.IsKeyDown(Keys.Up);
+                    return false;
                 }
             }
         }
@@ -44,13 +45,14 @@ namespace Tower_Defence
         {
             get
             {
-                if (Game1.gameStates == Game1.GameStates.Menu)
+                if (keyboardState.IsKeyDown(Keys.Down) && lastState.IsKeyUp(Keys.Down))
                 {
-                    return keyboardState.IsKeyDown(Keys.Down) && lastState.IsKeyDown(Keys.Down);
+                    return true;
                 }
+
                 else
                 {
-                    return keyboardState.IsKeyDown(Keys.Down);
+                    return false;
                 }
             }
         }
@@ -59,7 +61,14 @@ namespace Tower_Defence
         {
             get
             {
-                return keyboardState.IsKeyDown(Keys.Enter) && lastState.IsKeyUp(Keys.Enter);
+                if(keyboardState.IsKeyDown(Keys.Enter) && lastState.IsKeyUp(Keys.Enter))
+                {
+                    return true;
+                }// && lastState.IsKeyUp(Keys.Enter);
+                else
+                {
+                    return false;
+                }
             }
         }
     }

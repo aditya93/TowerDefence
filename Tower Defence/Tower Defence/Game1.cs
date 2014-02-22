@@ -14,7 +14,6 @@ namespace Tower_Defence
     
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-
         public enum GameStates
         {
             Menu,
@@ -22,10 +21,10 @@ namespace Tower_Defence
             End,
         }
         
+        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Level level = new Level();
-        public static GameStates gameStates;
         //Tower tower;
         Player player;
         //Enemy enemy1;
@@ -33,16 +32,21 @@ namespace Tower_Defence
         WaveManager waveManager;
         Toolbar toolbar;
         Button arrowButton;
+        SpriteFont arial;
+        Menu menu;
+        Input input;
+        public static GameStates gameStates;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-
+            menu = new Menu();
+            input = new Input();
             graphics.PreferredBackBufferWidth = level.Width * 32;
             graphics.PreferredBackBufferHeight = (level.Height + 1) * 32;
-            gameStates = GameStates.Menu;
             IsMouseVisible = true;
             Content.RootDirectory = "Content";
+            gameStates=GameStates.Menu;
         }
 
         protected override void Initialize()
@@ -62,6 +66,7 @@ namespace Tower_Defence
             level.AddTexture(path);
             Texture2D enemyTexture = Content.Load<Texture2D>("enemy");
 
+            arial = Content.Load<SpriteFont>("Arial");
             /*enemy1 = new Enemy(enemyTexture, Vector2.Zero, 100, 10, 0.5f);
             enemy1.SetWaypoints(level.Waypoints);
             wave = new Wave(0, 10, level, enemyTexture);
@@ -104,12 +109,44 @@ namespace Tower_Defence
             //enemies.Add(enemy1);
             //wave.Update(gameTime);
             //player.Update(gameTime, wave.enemies);
+            if (gameStates == GameStates.Menu)
+            {
+                if (input.Down)
+                {
+                    menu.Iterator++;
+                }
 
+                if (input.Up)
+                {
+                    menu.Iterator--;
+                }
+
+                if (input.MenuSelect)
+                {
+                    if (menu.Iterator == 0)
+                    {
+                        gameStates = GameStates.Running;
+                    }
+                    if (menu.Iterator == 1)
+                    {
+                        this.Exit();
+                    }
+                }
+            }
+
+            else if (gameStates == GameStates.Running)
+            {
+                GameUpdate(gameTime);
+            }
+
+            base.Update(gameTime);
+        }
+
+        protected void GameUpdate(GameTime gameTime)
+        {
             waveManager.Update(gameTime);
             player.Update(gameTime, waveManager.Enemies);
             arrowButton.Update(gameTime);
-
-            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -117,23 +154,32 @@ namespace Tower_Defence
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            
-            level.Draw(spriteBatch);
-            //enemy1.Draw(spriteBatch);
-            //wave.Draw(spriteBatch);
-            player.Draw(spriteBatch);
-            waveManager.Draw(spriteBatch);
-            toolbar.Draw(spriteBatch, player);
-            //tower.Draw(spriteBatch);
-            arrowButton.Draw(spriteBatch);
+            if (gameStates == GameStates.Menu)
+            {
+                menu.DrawMenu(spriteBatch,level.Width*32,arial);
+            }
+
+            else if (gameStates == GameStates.Running)
+            {
+                level.Draw(spriteBatch);
+                //enemy1.Draw(spriteBatch);
+                //wave.Draw(spriteBatch);
+                player.Draw(spriteBatch);
+                waveManager.Draw(spriteBatch);
+                toolbar.Draw(spriteBatch, player);
+                //tower.Draw(spriteBatch);
+                arrowButton.Draw(spriteBatch);
+            }
+
+            else if (gameStates == GameStates.End)
+            {
+                menu.DrawEndScreen(spriteBatch, level.Width * 32, arial);
+
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        public void Exit()
-        {
-            this.Exit();
-        }
     }
 }

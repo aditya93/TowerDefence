@@ -32,7 +32,7 @@ namespace Tower_Defence
             menuItems = new List<string>();
             menuItems.Add("Enter Game");
             menuItems.Add("Exit Game");
-            Iterator = 0;
+            Iterator = 1;
             infoText = string.Empty;
         }
 
