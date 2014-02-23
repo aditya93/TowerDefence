@@ -16,6 +16,7 @@ namespace Tower_Defence
         protected Texture2D bulletTexture;
         protected float bulletTimer;
         protected List<Bullet> bulletList=new List<Bullet>();
+        protected int upgradeLevel;
 
         public Enemy Target
         {
