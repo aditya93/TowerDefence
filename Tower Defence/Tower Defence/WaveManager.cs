@@ -12,7 +12,7 @@ namespace Tower_Defence
         private int numberOfWaves;
         private float timeSinceLastWave;
         private Queue<Wave> waves = new Queue<Wave>();
-        private Texture2D enemyTexture;
+        private Texture2D[] enemyTexture;
         private bool waveFinished=false;
         private Level level;
 
@@ -31,7 +31,7 @@ namespace Tower_Defence
             get { return CurrentWave.RoundNumber + 1; }
         }
 
-        public WaveManager(Player player, Level level, int numberOfWaves, Texture2D enemyTexture)
+        public WaveManager(Player player, Level level, int numberOfWaves, Texture2D[] enemyTexture)
         {
             this.numberOfWaves = numberOfWaves;
             this.enemyTexture = enemyTexture;
@@ -41,7 +41,7 @@ namespace Tower_Defence
             {
                 int initialNumberOfEnemies = 6;
                 int numberModifier = i + 1;
-                Wave wave = new Wave(i, initialNumberOfEnemies * numberModifier,player, level, enemyTexture);
+                Wave wave = new Wave(i, initialNumberOfEnemies * numberModifier, player, level, enemyTexture[i % 2]);
                 waves.Enqueue(wave);
             }
 
