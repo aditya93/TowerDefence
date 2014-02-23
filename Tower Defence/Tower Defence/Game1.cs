@@ -36,7 +36,6 @@ namespace Tower_Defence
         Menu menu;
         Input input;
         public static GameStates gameStates;
-        Texture2D[] enemyTexture=new Texture2D[4];
 
         public Game1()
         {
@@ -47,7 +46,7 @@ namespace Tower_Defence
             graphics.PreferredBackBufferHeight = (level.Height + 1) * 32;
             IsMouseVisible = true;
             Content.RootDirectory = "Content";
-            gameStates=GameStates.Running;
+            gameStates=GameStates.Menu;
         }
 
         protected override void Initialize()
@@ -65,8 +64,7 @@ namespace Tower_Defence
 
             level.AddTexture(grass);
             level.AddTexture(path);
-
-            
+            Texture2D enemyTexture = Content.Load<Texture2D>("enemy");
 
             arial = Content.Load<SpriteFont>("Arial");
             /*enemy1 = new Enemy(enemyTexture, Vector2.Zero, 100, 10, 0.5f);
@@ -76,8 +74,7 @@ namespace Tower_Defence
             Texture2D towerTexture = Content.Load<Texture2D>("tower");
             tower = new Tower(towerTexture, Vector2.Zero);
             player = new Player(level, towerTexture);*/
-            enemyTexture[0] = Content.Load<Texture2D>("enemy");
-            enemyTexture[1] = Content.Load<Texture2D>("enemy2");
+
             
             Texture2D towerTexture = Content.Load<Texture2D>("tower");
             Texture2D bulletTexture = Content.Load<Texture2D>("bullet");
